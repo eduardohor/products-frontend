@@ -1,9 +1,9 @@
 <template>
-  <header class="container">
-    
-      <button class="btn btn-primary m-2">Adicionar Categoria</button>
-      <button class="btn btn-primary">Adicionar Produto</button>
-  
+  <main class="container">
+
+    <router-link to="/category" class="btn btn-primary m-2">Adicionar Categoria</router-link>
+    <router-link to="/product" class="btn btn-primary">Adicionar Produto</router-link>
+
 
     <table class="table mt-3">
       <thead>
@@ -16,16 +16,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="product of products" :key="product.id">
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.category.name }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.amount }}</td>
+          <td>{{ product.quantity }}</td>
         </tr>
       </tbody>
     </table>
-  </header>
+  </main>
 </template>
 
 <script>
@@ -34,21 +34,28 @@ import Cookie from 'js-cookie'
 export default {
   name: 'HomeView',
 
-  created(){
+  data() {
+    return {
+      products: []
+    }
+  },
+
+  mounted() {
     const token = Cookie.get('_myapp_token');
-   
 
     fetch(`http://127.0.0.1:8000/api/products`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": `bearer ${token}`
-        }
-      }).then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-        })
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `bearer ${token}`
+      }
+    }).then((response) => response.json())
+      .then((res) => {
+        console.log(res)
+        this.products = res
+      })
+
   }
 }
 </script>

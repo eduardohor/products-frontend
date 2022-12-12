@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
   name: "Login",
 
@@ -31,6 +33,11 @@ export default {
       email: "",
       password: "",
     };
+  },
+
+  created(){
+    Cookie.remove('_myapp_token')
+
   },
 
   methods: {
@@ -50,7 +57,7 @@ export default {
       })
         .then((response) => response.json())
         .then((res) => {
-          console.log(res);
+          Cookie.set('_myapp_token', res.access_token)
         });
     },
   },

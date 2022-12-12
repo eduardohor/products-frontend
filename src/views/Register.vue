@@ -1,7 +1,14 @@
 <template>
   <main class="form-signin w-100 m-auto">
     <form @submit.stop.prevent="submit">
-      <h1 class="h3 mb-3 fw-normal">Faça o login</h1>
+      <h1 class="h3 mb-3 fw-normal">Por favor, cadastre-se</h1>
+
+      <input
+        v-model="name"
+        type="text"
+        class="form-control mb-2"
+        placeholder="Nome"
+      />
 
       <input
         v-model="email"
@@ -17,37 +24,35 @@
         placeholder="Senha"
       />
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">
+        Cadastrar
+      </button>
     </form>
   </main>
 </template>
 
 <script>
-import Cookie from 'js-cookie'
-
 export default {
-  name: "Login",
+  name: "Register",
 
   data() {
     return {
+      name: "",
       email: "",
       password: "",
     };
   },
 
-  // created(){
-  //   Cookie.remove('_myapp_token')
-
-  // },
-
   methods: {
     submit() {
       const payload = {
+        name: this.name,
         email: this.email,
         password: this.password,
+        
       };
 
-      fetch(`http://127.0.0.1:8000/api/login`, {
+      fetch(`http://127.0.0.1:8000/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,8 +62,9 @@ export default {
       })
         .then((response) => response.json())
         .then((res) => {
-          Cookie.set('_myapp_token', res.access_token)
+          console.log(res)
         });
+        this.$router.push({name: 'login'});
     },
   },
 };

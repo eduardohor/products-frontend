@@ -58,8 +58,10 @@ export default {
         .then((response) => response.json())
         .then((res) => {
           Cookie.set('_myapp_token', res.access_token)
+          this.$router.push({name: 'home'});
         });
-    },
+        
+      },
   },
 };
 </script>

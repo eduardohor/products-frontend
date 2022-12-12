@@ -62,9 +62,8 @@ export default {
       })
         .then((response) => response.json())
         .then((res) => {
-          console.log(res)
+          this.$router.push({name: 'login'});
         });
-        this.$router.push({name: 'login'});
     },
   },
 };

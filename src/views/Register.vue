@@ -1,28 +1,44 @@
+<script setup>
+import http from '../services/http'
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router'
+
+const user = reactive({
+  name: "",
+  email: "",
+  password: "",
+})
+
+const validate = reactive({})
+
+const router = useRouter()
+
+async function create() {
+  try {
+    const { data } = await http.post('/register', user)
+    router.push({ name: 'login' })
+    console.log(data)
+  } catch (error) {
+    Object.assign(validate, error.response.data['errors'])
+  }
+
+};
+</script>
+
+
 <template>
   <main class="form-signin w-100 m-auto">
-    <form @submit.stop.prevent="submit">
+    <form @submit.prevent="create">
       <h1 class="h3 mb-3 fw-normal">Por favor, cadastre-se</h1>
 
-      <input
-        v-model="name"
-        type="text"
-        class="form-control mb-2"
-        placeholder="Nome"
-      />
+      <input v-model="user.name" type="text" class="form-control mb-2" placeholder="Nome" />
+      <template v-if="validate.name" class=".text-danger">{{ validate.name[0] }}</template>
 
-      <input
-        v-model="email"
-        type="email"
-        class="form-control mb-2"
-        placeholder="E-mail"
-      />
+      <input v-model="user.email" type="email" class="form-control mb-2" placeholder="E-mail" />
+      <template v-if="validate.email" class=".text-danger">{{ validate.email[0] }}</template>
 
-      <input
-        v-model="password"
-        type="password"
-        class="form-control mb-2"
-        placeholder="Senha"
-      />
+      <input v-model="user.password" type="password" class="form-control mb-2" placeholder="Senha" />
+      <template v-if="validate.password" class=".text-danger">{{ validate.password[0] }}</template>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit">
         Cadastrar
@@ -31,43 +47,6 @@
   </main>
 </template>
 
-<script>
-export default {
-  name: "Register",
-
-  data() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-    };
-  },
-
-  methods: {
-    submit() {
-      const payload = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        
-      };
-
-      fetch(`${import.meta.env.VITE_API_URL_BASE}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access": "application/json",
-        },
-        body: JSON.stringify(payload),
-      })
-        .then((response) => response.json())
-        .then((res) => {
-          this.$router.push({name: 'login'});
-        });
-    },
-  },
-};
-</script>
 
 <style>
 .form-signin {

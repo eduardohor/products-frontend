@@ -1,3 +1,26 @@
+<script>
+import { axiosInstanceToken } from '../services/http';
+
+export default {
+  name: 'HomeView',
+
+  data() {
+    return {
+      products: []
+    }
+  },
+
+  async created() {
+    try {
+      const { data } = await axiosInstanceToken.get('/products');
+      this.products = data
+    } catch (error) {
+    }
+
+  }
+}
+</script>
+
 <template>
   <main class="container">
 
@@ -23,7 +46,8 @@
           <td>{{ product.amount }}</td>
           <td>{{ product.quantity }}</td>
           <td class="d-flex justify-content-center">
-            <router-link :to="{name: 'product-show', params: {id: product.id}}" class="btn btn btn-info ">Detalhes</router-link>
+            <router-link :to="{ name: 'product-show', params: { id: product.id } }"
+              class="btn btn btn-info ">Detalhes</router-link>
           </td>
 
         </tr>
@@ -33,41 +57,11 @@
 </template>
 
 <style>
-.editar{
+.editar {
   margin-right: 5px;
 }
 </style>
 
-<script>
-import Cookie from 'js-cookie'
 
-export default {
-  name: 'HomeView',
-
-  data() {
-    return {
-      products: []
-    }
-  },
-
-  created() {
-    const token = Cookie.get('_myapp_token');
-
-    fetch(`${import.meta.env.VITE_API_URL_BASE}/products`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": `bearer ${token}`
-      }
-    }).then((response) => response.json())
-      .then((res) => {
-        console.log(res)
-        this.products = res
-      })
-
-  }
-}
-</script>
 
 

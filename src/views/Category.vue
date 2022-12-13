@@ -1,51 +1,44 @@
+<script setup>
+import { axiosInstanceToken } from '../services/http';
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+
+const category = reactive({
+  name: ''
+});
+
+const validate = reactive({});
+
+const router = useRouter();
+
+async function create() {
+  try {
+    const { data } = await axiosInstanceToken.post('/categories', category);
+    router.push({ name: 'home' });
+  } catch (error) {
+    Object.assign(validate, error.response.data['errors']);
+  }
+
+}
+
+</script>
+
 <template>
   <main class="container">
-    <form @submit.stop.prevent="submit">
+    <form @submit.prevent="create">
       <div class="form-group">
         <h1>Adicionar Categoria</h1>
         <label>Nome da categoria</label>
-        <input  v-model="name" type="text" class="form-control mt-1 w-25" placeholder="Nome" />
+        <input v-model="category.name" type="text" class="form-control mt-1 w-25" placeholder="Nome">
+        <template v-if="validate.name">
+          {{ validate.name }}
+        </template>
       </div>
-      <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+      <button type="submit" class="btn btn-primary mt-3">
+        Cadastrar
+      </button>
     </form>
   </main>
 </template>
 
-<script>
-import Cookie from 'js-cookie'
 
-export default {
-  name: "Category",
-
-  data() {
-    return {
-      name: "",
-    };
-  },
-
-  methods: {
-    submit() {
-      const payload = {
-        name: this.name,
-      };
-
-    const token = Cookie.get('_myapp_token');
-
-
-      fetch(`${import.meta.env.VITE_API_URL_BASE}/categories`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access": "application/json",
-          "Authorization": `bearer ${token}`
-        },
-        body: JSON.stringify(payload),
-      })
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-        });
-    },
-  },
-};
-</script>

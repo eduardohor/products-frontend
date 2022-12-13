@@ -1,47 +1,6 @@
-<script>
-import { axiosInstanceToken } from '../services/http';
-
-export default {
-  name: "ProductShow",
-
-  data() {
-    return {
-      product: [],
-      category: []
-    };
-  },
-  async created() {
-    const id = this.$route.params.id
-    try {
-      const { data } = await axiosInstanceToken.get(`/products/${id}`);
-      console.log(data)
-      this.product = data
-    } catch (error) {
-    }
-
-  },
-
-  methods: {
-    async submit() {
-      const id = this.$route.params.id
-      try {
-        const { data } = await axiosInstanceToken.delete(`/products/${id}`);
-        console.log(data)
-        this.product = data
-      } catch (error) {
-      }
-    }
-
-  }
-
-
-};
-</script>
-
-
 <template>
   <main class="container">
-    <h1>Detalhes - {{ product.name }}</h1>
+    <h1>Detalhes - {{product.name}}</h1>
     <router-link to="/" class="btn btn-info">Voltar</router-link>
     <table class="table mt-3 w-75 m-auto">
       <thead>
@@ -63,8 +22,7 @@ export default {
           <td>{{ product.amount }}</td>
           <td>{{ product.quantity }}</td>
           <td class="d-flex justify-content-center">
-            <router-link :to="{ name: 'product-edit', params: { id: product.id } }" class="btn btn btn-warning "
-              href="">Editar</router-link>
+            <router-link :to="{name: 'product-edit', params: {id: product.id}}" class="btn btn btn-warning " href="">Editar</router-link>
             <form @submit.stop.prevent="submit">
               <button type="submit" class="btn btn-danger">Excluir</button>
             </form>
@@ -77,13 +35,69 @@ export default {
 </template>
 
 <style>
-.btn-info {
+.btn-info{
   margin-left: 10px;
 }
-
-.btn-warning {
+.btn-warning{
   margin-right: 10px;
 }
+
+
 </style>
 
+<script>
+import Cookie from "js-cookie";
 
+export default {
+  name: "ProductShow",
+
+  data() {
+    return {
+      product: [],
+      category:[]
+    };
+  },
+
+  created(){
+    const token = Cookie.get('_myapp_token');
+    const id = this.$route.params.id
+   
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/products/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `bearer ${token}`
+        }
+      }).then((response) => response.json())
+        .then((res) => {
+          this.category = res.category
+          this.product = res
+        })
+
+  },
+
+  methods:{
+    submit(){
+      const token = Cookie.get('_myapp_token');
+      const id = this.$route.params.id
+   
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `bearer ${token}`
+        }
+      }).then((response) => response.json())
+        .then((res) => {
+         console.log(res)
+         this.$router.push({name: 'home'});
+        })
+    }
+
+  }
+
+    
+};
+</script>

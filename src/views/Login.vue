@@ -33,28 +33,13 @@ async function create() {
         Faça o login
       </h1>
 
-      <input
-        v-model="user.email"
-        type="email"
-        class="form-control mb-2"
-        placeholder="E-mail"
-      >
-      <input
-        v-model="user.password"
-        type="password"
-        class="form-control mb-2"
-        placeholder="Senha"
-      >
-      <template
-        v-if="validate.error"
-      >
+      <input v-model="user.email" type="email" class="form-control mb-2" placeholder="E-mail">
+      <input v-model="user.password" type="password" class="form-control mb-2" placeholder="Senha">
+      <template v-if="validate.error">
         {{ validate.error }}
       </template>
 
-      <button
-        class="w-100 btn btn-lg btn-primary"
-        type="submit"
-      >
+      <button class="w-100 btn btn-lg btn-primary" type="submit">
         Entrar
       </button>
     </form>

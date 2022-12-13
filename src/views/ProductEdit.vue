@@ -1,7 +1,11 @@
 <template>
   <main class="container">
-    <form @submit.stop.prevent="submit">
+    <div class="">
       <h1>Atualizar Produto</h1>
+      <router-link :to="{name: 'product-show', params: {id: product.id}}" class="btn btn-info mb-5 mt-2">Voltar</router-link>
+    </div>
+
+    <form @submit.stop.prevent="submit">
       <div class="form-group d-flex flex-column w-50">
         <div class="d-flex">
 
@@ -28,6 +32,12 @@
     </form>
   </main>
 </template>
+
+<style>
+h1{
+  margin-left: 10px;
+}
+</style>
 
 <script>
 import Cookie from "js-cookie";
@@ -85,6 +95,7 @@ export default {
         .then((response) => response.json())
         .then((res) => {
           console.log(res);
+         this.$router.push({name: 'product-show', params: {id: this.product.id}});
         });
     },
   },

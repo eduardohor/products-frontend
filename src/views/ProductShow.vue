@@ -1,7 +1,8 @@
 <template>
   <main class="container">
-    <h1>Visualizando {{product.name}}</h1>
-    <table class="table mt-5 w-75 m-auto">
+    <h1>Detalhes - {{product.name}}</h1>
+    <router-link to="/" class="btn btn-info">Voltar</router-link>
+    <table class="table mt-3 w-75 m-auto">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -34,9 +35,13 @@
 </template>
 
 <style>
+.btn-info{
+  margin-left: 10px;
+}
 .btn-warning{
   margin-right: 10px;
 }
+
 
 </style>
 

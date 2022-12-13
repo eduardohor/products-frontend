@@ -5,28 +5,38 @@
     <router-link to="/product" class="btn btn-primary">Adicionar Produto</router-link>
 
 
-    <table class="table mt-3">
+    <table class="table mt-3 w-75 m-auto">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Categoria</th>
           <th scope="col">Nome</th>
           <th scope="col">Preço</th>
           <th scope="col">Quantidade</th>
+          <th scope="col" class="text-center">Ações</th>
+
         </tr>
       </thead>
       <tbody>
         <tr v-for="product of products" :key="product.id">
           <th scope="row">{{ product.id }}</th>
-          <td>{{ product.category.name }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.amount }}</td>
           <td>{{ product.quantity }}</td>
+          <td class="d-flex justify-content-center">
+            <router-link :to="{name: 'product-show', params: {id: product.id}}" class="btn btn btn-info ">Detalhes</router-link>
+          </td>
+
         </tr>
       </tbody>
     </table>
   </main>
 </template>
+
+<style>
+.editar{
+  margin-right: 5px;
+}
+</style>
 
 <script>
 import Cookie from 'js-cookie'
@@ -59,3 +69,5 @@ export default {
   }
 }
 </script>
+
+

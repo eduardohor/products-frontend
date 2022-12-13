@@ -4,6 +4,9 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Category from '../views/Category.vue'
 import Product from '../views/Product.vue'
+import ProductEdit from '../views/ProductEdit.vue'
+import ProductShow from '../views/ProductShow.vue'
+
 import Guard from '../services/middleware'
 
 
@@ -36,6 +39,18 @@ const router = createRouter({
       path: '/product',
       name: 'product',
       component: Product,
+      beforeEnter:Guard.auth
+    },
+    {
+      path: '/product/:id',
+      name: 'product-show',
+      component: ProductShow,
+      beforeEnter:Guard.auth
+    },
+    {
+      path: '/product-edit/:id',
+      name: 'product-edit',
+      component: ProductEdit,
       beforeEnter:Guard.auth
     },
   ]

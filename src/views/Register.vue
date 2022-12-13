@@ -52,7 +52,7 @@ export default {
         
       };
 
-      fetch(`http://127.0.0.1:8000/api/register`, {
+      fetch(`${import.meta.env.VITE_API_URL_BASE}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

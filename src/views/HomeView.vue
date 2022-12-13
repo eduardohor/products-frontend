@@ -53,7 +53,7 @@ export default {
   created() {
     const token = Cookie.get('_myapp_token');
 
-    fetch(`http://127.0.0.1:8000/api/products`, {
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/products`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -62,7 +62,7 @@ export default {
     const token = Cookie.get('_myapp_token');
     const id = this.$route.params.id
    
-    fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/products/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ export default {
       const token = Cookie.get('_myapp_token');
       const id = this.$route.params.id
    
-    fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/products/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

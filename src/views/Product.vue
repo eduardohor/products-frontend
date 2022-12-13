@@ -55,7 +55,7 @@ export default {
   mounted(){
     const token = Cookie.get('_myapp_token');
    
-    fetch(`http://127.0.0.1:8000/api/categories`, {
+    fetch(`${import.meta.env.VITE_API_URL_BASE}/categories`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default {
 
       const token = Cookie.get("_myapp_token");
 
-      fetch(`http://127.0.0.1:8000/api/products`, {
+      fetch(`${import.meta.env.VITE_API_URL_BASE}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
